@@ -90,7 +90,7 @@ class DashboardSubscriber extends MainDashboardSubscriber
                 try {
                     $model = $this->modelFactory->getModel($log['bundle'].'.'.$log['object']);
                     $item  = $model->getEntity($log['objectId']);
-                    if (null === $item) {
+                    if ($item && method_exists($item, $model->getNameGetter())) {
                         $log['objectName'] = $log['object'].'-'.$log['objectId'];
                     } elseif ($model instanceof FormModel && method_exists($item, $model->getNameGetter())) {
                         $log['objectName'] = $item->{$model->getNameGetter()}();
